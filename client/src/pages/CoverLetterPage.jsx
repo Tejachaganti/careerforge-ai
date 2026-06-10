@@ -1,5 +1,4 @@
 import CoverLetterGenerator from "../components/coverletter/CoverLetterGenerator"
-
 function CoverLetterPage() {
   return (
     <div className="space-y-8">
