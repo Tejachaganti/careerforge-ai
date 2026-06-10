@@ -10,9 +10,10 @@ const jobRoutes = require('./routes/jobRoutes')
 const skillRoutes =require('./routes/skillRoutes')
 const app = express()
 
-const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
-  .split(',')
-  .map((origin) => origin.trim())
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://careerforge-821wy2o9d-teja-s-projects10.vercel.app',
+]
 
 app.use(
   cors({
