@@ -12,7 +12,7 @@ const app = express()
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://careerforge-821wy2o9d-teja-s-projects10.vercel.app',
+  'https://careerforge-ai-one.vercel.app',
 ]
 
 app.use(
