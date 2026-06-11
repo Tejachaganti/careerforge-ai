@@ -40,10 +40,12 @@ const getProfile =
 
     res.json(profile)
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    })
-  }
+  console.error("PROFILE ERROR:", error)
+
+  res.status(500).json({
+    message: error.message,
+  })
+}
 }
 
 module.exports = {
