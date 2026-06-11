@@ -8,6 +8,10 @@ const aiRoutes = require('./routes/aiRoutes')
 const authRoutes = require('./routes/authRoutes')
 const jobRoutes = require('./routes/jobRoutes')
 const skillRoutes =require('./routes/skillRoutes')
+const profileRoutes =
+  require(
+    "./routes/profileRoutes"
+  )
 const app = express()
 
 const allowedOrigins = [
@@ -41,6 +45,10 @@ app.use('/api/auth', authRoutes)
 app.use('/api/ai', aiRoutes)
 app.use('/api/jobs', jobRoutes)
 app.use('/api/skills',skillRoutes)
+app.use(
+  "/api/profile",
+  profileRoutes
+)
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' })

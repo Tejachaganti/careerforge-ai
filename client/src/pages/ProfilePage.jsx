@@ -44,20 +44,30 @@ const completionPercentage =
   )
 
   useEffect(() => {
-  const savedProfile =
-    localStorage.getItem("careerforgeProfile")
 
-  if (savedProfile) {
-    setProfile(JSON.parse(savedProfile))
-  } else if (user) {
-    setProfile((prev) => ({
-      ...prev,
-      fullName: user.name || "",
-      email: user.email || "",
-      profileImage: user.profileImage || "",
-    }))
-  }
-}, [user])
+  const loadProfile =
+    async () => {
+
+      try {
+
+        const { data } =
+          await api.get(
+            "/profile"
+          )
+
+        if (data) {
+          setProfile(data)
+        }
+
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+
+  loadProfile()
+
+}, [])
   const handleChange = (e) => {
 
     setProfile({
@@ -92,28 +102,28 @@ const completionPercentage =
 
   }
 
- const saveProfile = () => {
-  localStorage.setItem(
-    "careerforgeProfile",
-    JSON.stringify(profile)
-  )
+ const saveProfile =
+  async () => {
 
-  localStorage.setItem(
-    "careerforge_user",
-    JSON.stringify({
-      ...JSON.parse(
-        localStorage.getItem(
-          "careerforge_user"
-        ) || "{}"
-      ),
-      name: profile.fullName,
-      email: profile.email,
-      profileImage: profile.profileImage,
-    })
-  )
+    try {
 
-  alert("Profile saved successfully!")
-}
+      await api.put(
+        "/profile",
+        profile
+      )
+
+      alert(
+        "Profile saved successfully!"
+      )
+
+    } catch (error) {
+
+      alert(
+        "Failed to save profile"
+      )
+
+    }
+  }
   return (
 
     <div className="space-y-6">
