@@ -24,8 +24,8 @@ const resumeProgress = 0
 const interviewProgress = 0
 const applicationProgress = 0
 const userName =
-  savedProfile.fullName
-    ? savedProfile.fullName.split(" ")[0]
+  profile?.fullName?.trim()
+    ? profile.fullName.split(" ")[0]
     : "User"
 
 const resumeScore =
@@ -63,11 +63,6 @@ const profileCompletion =
     ) * 100
   )
  
-
-        
-
-
-
         useEffect(() => {
 
   const fetchJobs = async () => {
