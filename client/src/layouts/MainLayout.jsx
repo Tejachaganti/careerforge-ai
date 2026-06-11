@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import api from "../services/api"
 import {
   Outlet,
   useNavigate,
@@ -34,17 +35,26 @@ function MainLayout() {
 
 }
 
-  const savedProfile =
-    JSON.parse(
-      localStorage.getItem(
-        "careerforgeProfile"
-      ) || "{}"
-    )
-    const profileImage =
-  savedProfile.profileImage
+  const [profile, setProfile] = useState({})
 
-  const userName =
-    savedProfile.fullName || "User"
+useEffect(() => {
+  const loadProfile = async () => {
+    try {
+      const { data } = await api.get("/profile")
+      setProfile(data || {})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  loadProfile()
+}, [])
+
+const profileImage =
+  profile?.profileImage
+
+const userName =
+  profile?.fullName || "User"
 
   const displayName =
     userName.split(" ")[0]
