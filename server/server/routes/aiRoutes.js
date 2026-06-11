@@ -41,5 +41,7 @@ router.post(
   upload.single("resume"),
   analyzeResume
 )
-
+router.get("/test", (req, res) => {
+  res.json({ message: "AI Route Working" })
+})
 module.exports = router
