@@ -148,28 +148,7 @@ const reply = await getAIReply([
       reply,
       userId: req.user._id,
     })
-await ResumeAnalysis.create({
-  userId: req.user._id,
 
-  atsScore:
-    Number(parsed.atsScore) || 75,
-
-  summary:
-    parsed.summary ||
-    "Analysis complete.",
-
-  strengths:
-    parsed.strengths || [],
-
-  gaps:
-    parsed.gaps || [],
-
-  recommendations:
-    parsed.recommendations || [],
-
-  keywords:
-    parsed.keywords || [],
-})
     res.status(200).json({ message, reply })
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -392,7 +371,28 @@ ${jobDescription || "Not provided"}
       }
 
     }
+await ResumeAnalysis.create({
+  userId: req.user._id,
 
+  atsScore:
+    Number(parsed.atsScore) || 75,
+
+  summary:
+    parsed.summary ||
+    "Analysis complete.",
+
+  strengths:
+    parsed.strengths || [],
+
+  gaps:
+    parsed.gaps || [],
+
+  recommendations:
+    parsed.recommendations || [],
+
+  keywords:
+    parsed.keywords || [],
+})
     res.status(200).json({
 
       atsScore:
