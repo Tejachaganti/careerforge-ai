@@ -4,7 +4,26 @@ import api from "../services/api"
 function ResumeHistoryPage() {
   const [history, setHistory] = useState([])
   const [loading, setLoading] = useState(true)
+const deleteAnalysis =
+  async (id) => {
 
+    if (
+      !window.confirm(
+        "Delete this analysis?"
+      )
+    )
+      return
+
+    await api.delete(
+      `/resume/history/${id}`
+    )
+
+    setHistory(
+      history.filter(
+        item => item._id !== id
+      )
+    )
+  }
   useEffect(() => {
     const loadHistory = async () => {
       try {
@@ -94,6 +113,14 @@ function ResumeHistoryPage() {
               <p className="mt-2 text-slate-700">
                 {item.summary}
               </p>
+              <button
+  onClick={() =>
+    deleteAnalysis(item._id)
+  }
+  className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+>
+  🗑 Delete
+</button>
             </div>
 
             <div className="mt-4">
