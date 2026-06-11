@@ -27,8 +27,8 @@ function ResumeAnalyzer() {
       formData.append("resumeText", resumeText)
       formData.append("jobDescription", jobDescription)
 
-      const response = await api.post(
-  "/ai/analyze-resume",
+     const response = await api.post(
+  "/ai/resume/analyze",
   formData,
   {
     headers: {
