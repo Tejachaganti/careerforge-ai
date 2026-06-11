@@ -1373,6 +1373,43 @@ setActiveTab("report")
   {!selectedCategory && (
 
   <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div
+  onClick={() => {
+   const role = prompt(
+  "Enter Role (Java Developer, Spring Boot Developer, ServiceNow Developer, React Developer etc)"
+)
+
+    if (!role) return
+
+    setSelectedCategory({
+      category: role,
+      icon: "➕",
+      topics: [
+  "Technical Questions",
+  "Projects",
+  "Problem Solving",
+  "HR Questions"
+]
+    })
+
+    setSelectedTopic("General Interview")
+
+    generateTopicQuestions(
+      role,
+      "General Interview",
+      company
+    )
+  }}
+  className="cursor-pointer rounded-2xl border p-6 transition hover:border-blue-500 hover:shadow-lg"
+>
+  <h3 className="text-xl font-bold">
+    ➕ Custom Role
+  </h3>
+
+  <p className="mt-3 text-sm text-slate-500">
+    Generate questions for any role
+  </p>
+</div>
 
     {filteredCategories.map(
       (category) => (
