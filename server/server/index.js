@@ -12,6 +12,10 @@ const profileRoutes =
   require(
     "./routes/profileRoutes"
   )
+const resumeRoutes =
+  require(
+    "./routes/resumeRoutes"
+  )
 const app = express()
 
 const allowedOrigins = [
@@ -49,7 +53,10 @@ app.use(
   "/api/profile",
   profileRoutes
 )
-
+app.use(
+  "/api/resume",
+  resumeRoutes
+)
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' })
 })
