@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-
+import { useAuth } from "../context/AuthContext"
 const defaultProfile = {
   fullName: "",
   email: "",
@@ -14,6 +14,8 @@ const defaultProfile = {
 }
 
 function ProfilePage() {
+
+  const { user } = useAuth()
 
   const [profile, setProfile] =
     useState(defaultProfile)
@@ -42,22 +44,20 @@ const completionPercentage =
   )
 
   useEffect(() => {
+  const savedProfile =
+    localStorage.getItem("careerforgeProfile")
 
-    const savedProfile =
-      localStorage.getItem(
-        "careerforgeProfile"
-      )
-
-    if (savedProfile) {
-
-      setProfile(
-        JSON.parse(savedProfile)
-      )
-
-    }
-
-  }, [])
-
+  if (savedProfile) {
+    setProfile(JSON.parse(savedProfile))
+  } else if (user) {
+    setProfile((prev) => ({
+      ...prev,
+      fullName: user.name || "",
+      email: user.email || "",
+      profileImage: user.profileImage || "",
+    }))
+  }
+}, [user])
   const handleChange = (e) => {
 
     setProfile({
@@ -92,19 +92,28 @@ const completionPercentage =
 
   }
 
-  const saveProfile = () => {
+ const saveProfile = () => {
+  localStorage.setItem(
+    "careerforgeProfile",
+    JSON.stringify(profile)
+  )
 
-    localStorage.setItem(
-      "careerforgeProfile",
-      JSON.stringify(profile)
-    )
+  localStorage.setItem(
+    "careerforge_user",
+    JSON.stringify({
+      ...JSON.parse(
+        localStorage.getItem(
+          "careerforge_user"
+        ) || "{}"
+      ),
+      name: profile.fullName,
+      email: profile.email,
+      profileImage: profile.profileImage,
+    })
+  )
 
-    alert(
-      "Profile saved successfully!"
-    )
-
-  }
-
+  alert("Profile saved successfully!")
+}
   return (
 
     <div className="space-y-6">
