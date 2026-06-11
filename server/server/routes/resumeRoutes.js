@@ -9,10 +9,10 @@ const {
 
 const {
   getHistory,
+  deleteHistory,
 } = require(
   "../controllers/resumeController"
 )
-
 
 const router =
   express.Router()
@@ -24,15 +24,9 @@ router.get(
   getHistory
 )
 
-const {
-  getHistory,
-  deleteHistory,
-} = require("../controllers/resumeController")
-
-router.get("/history", getHistory)
-
 router.delete(
   "/history/:id",
   deleteHistory
 )
+
 module.exports = router

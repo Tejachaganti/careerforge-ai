@@ -29,9 +29,14 @@ const getHistory =
 
     }
   }
-  const deleteHistory =
+ const deleteHistory =
   async (req, res) => {
     try {
+
+      console.log(
+        "DELETE REQUEST:",
+        req.params.id
+      )
 
       await ResumeAnalysis
         .findOneAndDelete({
@@ -46,6 +51,8 @@ const getHistory =
 
     } catch (error) {
 
+      console.error(error)
+
       res.status(500).json({
         message:
           error.message,
@@ -53,7 +60,6 @@ const getHistory =
 
     }
   }
-
 module.exports = {
   getHistory,
   deleteHistory,
