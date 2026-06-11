@@ -15,7 +15,7 @@ import ResumeAnalyzerPage from "./pages/ResumeAnalyzerPage"
 import Signup from "./pages/Signup"
 import CoverLetterPage from "./pages/CoverLetterPage"
 import ForgotPassword from "./pages/ForgotPassword"
-
+import ResumeHistoryPage from "./pages/ResumeHistoryPage"
 
 function App() {
   return (
@@ -34,6 +34,7 @@ function App() {
           <Route path="/ai-assistant" element={<AIAssistantPage />} />
           <Route path="/job-tracker" element={<JobTrackerPage />} />
           <Route path="/resume-analyzer" element={<ResumeAnalyzerPage />} />
+          <Route path="/resume-history"element={<ResumeHistoryPage />}/>
           <Route path="/interview-prep" element={<InterviewPrepPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/profile"element={<ProfilePage />}/>
@@ -41,6 +42,7 @@ function App() {
           <Route path="/career-roadmap"element={<CareerRoadmapPage />}/>
           <Route path="/cover-letter"element={<CoverLetterPage />}/>
           <Route path="/skill-gap" element={<SkillGapAnalyzerPage />}/>
+          
           
           
         </Route>
