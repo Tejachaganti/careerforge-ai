@@ -12,18 +12,14 @@ import {
 } from "react-icons/fi"
 
 function Dashboard() {
+  const [profile, setProfile] = useState({})
 
   const [jobs, setJobs] = useState([])
   const [
   showOverview,
   setShowOverview,
 ] = useState(false)
-  const savedProfile =
-  JSON.parse(
-    localStorage.getItem(
-      "careerforgeProfile"
-    ) || "{}"
-  )
+  const savedProfile = profile
 const resumeProgress = 0
 const interviewProgress = 0
 const applicationProgress = 0
@@ -66,31 +62,48 @@ const profileCompletion =
       profileFields.length
     ) * 100
   )
-  useEffect(() => {
-
-    const fetchJobs = async () => {
-
-      try {
+ 
 
         
-const response = await api.get(
-  "/jobs"
-)
 
-        setJobs(response.data)
 
-      } catch (error) {
 
-        console.log(error)
+        useEffect(() => {
 
-      }
+  const fetchJobs = async () => {
+    try {
+
+      const response =
+        await api.get("/jobs")
+
+      setJobs(response.data)
+
+    } catch (error) {
+
+      console.log(error)
 
     }
+  }
 
-    fetchJobs()
+  const fetchProfile = async () => {
+    try {
 
-  }, [])
+      const { data } =
+        await api.get("/profile")
 
+      setProfile(data || {})
+
+    } catch (error) {
+
+      console.log(error)
+
+    }
+  }
+
+  fetchJobs()
+  fetchProfile()
+
+}, [])
   const analytics = useMemo(() => {
 
     const totalJobs = jobs.length
