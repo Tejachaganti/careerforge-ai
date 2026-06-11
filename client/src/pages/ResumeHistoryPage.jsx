@@ -113,14 +113,7 @@ const deleteAnalysis =
               <p className="mt-2 text-slate-700">
                 {item.summary}
               </p>
-              <button
-  onClick={() =>
-    deleteAnalysis(item._id)
-  }
-  className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
->
-  🗑 Delete
-</button>
+              
             </div>
 
             <div className="mt-4">
@@ -160,7 +153,14 @@ const deleteAnalysis =
               </ul>
 
             </div>
-
+<button
+  onClick={() =>
+    deleteAnalysis(item._id)
+  }
+  className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+>
+  🗑 Delete
+</button>
           </div>
         ))
       )}
