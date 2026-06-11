@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
+import api from "../services/api"
 const defaultProfile = {
   fullName: "",
   email: "",
@@ -117,12 +118,14 @@ const completionPercentage =
       )
 
     } catch (error) {
+  console.error(error)
 
-      alert(
-        "Failed to save profile"
-      )
-
-    }
+  alert(
+    error.response?.data?.message ||
+    error.message ||
+    "Failed to save profile"
+  )
+}
   }
   return (
 
