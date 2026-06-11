@@ -40,7 +40,7 @@ const getProfile =
 
     res.json(profile)
   } catch (error) {
-  console.error("PROFILE ERROR:", error)
+  console.error("PROFILE SAVE ERROR:", error)
 
   res.status(500).json({
     message: error.message,
