@@ -1,12 +1,13 @@
 import { useState } from "react"
 import api from "../../services/api"
-
+import { useNavigate } from "react-router-dom"
 function ResumeAnalyzer() {
   const [resumeText, setResumeText] = useState("")
   const [jobDescription, setJobDescription] = useState("")
   const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
+  const navigate = useNavigate()
 
   const analyzeResume = async () => {
     if (!resumeText.trim() && !file) {
@@ -259,6 +260,16 @@ setResult(response.data)
   ))}
 </ul>
             </div>
+            <div className="mt-6">
+  <button
+    onClick={() =>
+      navigate("/resume-history")
+    }
+    className="w-full rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white hover:bg-slate-800"
+  >
+    📜 View Resume History
+  </button>
+</div>
           </>
         ) : (
           <div className="flex h-full min-h-[300px] flex-col items-center justify-center text-center">
