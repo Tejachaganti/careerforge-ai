@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
 
-const allowedStatuses = ['Applied', 'Interview', 'Offer', 'Rejected']
+const allowedStatuses = [
+  'Saved',
+  'Applied',
+  'Interview',
+  'Offer',
+  'Rejected'
+]
 
 const jobSchema = new mongoose.Schema(
   {
@@ -27,7 +33,7 @@ const jobSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: allowedStatuses,
-      default: 'Applied',
+      default: 'Saved',
     },
     appliedDate: {
   type: Date,

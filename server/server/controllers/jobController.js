@@ -2,7 +2,13 @@ const mongoose = require('mongoose')
 
 const Job = require('../models/Job')
 
-const allowedStatuses = ['Applied', 'Interview', 'Offer', 'Rejected']
+const allowedStatuses = [
+  'Saved',
+  'Applied',
+  'Interview',
+  'Offer',
+  'Rejected'
+]
 
 const validateJobPayload = ({ company, role, status }) => {
   if (!company || !role) {
@@ -24,7 +30,13 @@ const addJob = async (req, res) => {
       return res.status(400).json({ message: validationError })
     }
 
-    const { company, location = '', notes = '', role, status = 'Applied' } = req.body
+    const {
+  company,
+  location = '',
+  notes = '',
+  role,
+  status = 'Saved',
+} = req.body
 
     const newJob = await Job.create({
       company,
@@ -69,7 +81,7 @@ const updateJob = async (req, res) => {
         location: req.body.location || '',
         notes: req.body.notes || '',
         role: req.body.role,
-        status: req.body.status || 'Applied',
+        status: req.body.status || 'Saved',
       },
       { new: true, runValidators: true },
     )

@@ -8,6 +8,8 @@ const aiRoutes = require('./routes/aiRoutes')
 const authRoutes = require('./routes/authRoutes')
 const jobRoutes = require('./routes/jobRoutes')
 const skillRoutes =require('./routes/skillRoutes')
+const jobSearchRoutes =
+  require("./routes/jobSearchRoutes")
 const profileRoutes =
   require(
     "./routes/profileRoutes"
@@ -60,6 +62,10 @@ app.use(
 app.use(
   "/api/resume",
   resumeRoutes
+)
+app.use(
+  "/api/job-search",
+  jobSearchRoutes
 )
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' })
