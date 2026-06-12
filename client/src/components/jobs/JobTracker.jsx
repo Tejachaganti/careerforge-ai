@@ -18,6 +18,7 @@ import api from "../../services/api"
 import EmptyState from "../ui/EmptyState"
 
 const statuses = [
+  "Saved",
   "Applied",
   "Interview",
   "Offer",
@@ -25,6 +26,9 @@ const statuses = [
 ]
 
 const statusStyles = {
+
+  Saved:
+  "bg-violet-50 text-violet-700 ring-violet-200",
 
   Applied:
     "bg-sky-50 text-sky-700 ring-sky-200",
@@ -50,7 +54,7 @@ const emptyForm = {
 
   role: "",
 
-  status: "Applied",
+ status: "Saved",
 
 }
 
@@ -68,6 +72,70 @@ function JobTracker() {
 
   const [jobs, setJobs] = useState([])
 
+  const [searchQuery, setSearchQuery] = useState("")
+const [searchResults, setSearchResults] = useState([])
+
+const searchJobs = async () => {
+  try {
+   const { data } = await api.get(
+  `/job-search/search?q=${
+    searchQuery || "software engineer"
+  }`
+)
+    setSearchResults(data)
+  } catch (error) {
+
+  console.error("SAVE JOB ERROR:", error)
+
+  console.log(error.response?.data)
+
+  alert(
+    JSON.stringify(
+      error.response?.data || error.message
+    )
+  )
+
+}
+}
+const saveLiveJob = async (job) => {
+
+  try {
+
+    const response = await api.post(
+      "/jobs",
+      {
+        company:
+          job.company?.display_name || "",
+
+        role:
+          job.title || "",
+
+        location:
+          job.location?.display_name || "",
+
+        notes:
+          job.description || "",
+
+        status: "Saved",
+      }
+    )
+
+    setJobs((current) => [
+      response.data,
+      ...current,
+    ])
+
+    alert("Job saved!")
+
+  } catch (error) {
+
+    console.log(error)
+
+    alert("Failed to save job")
+
+  }
+
+}
   useEffect(() => {
 
     const fetchJobs = async () => {
@@ -135,6 +203,8 @@ function JobTracker() {
     [jobs]
 
   )
+   
+
 
   const handleChange = (event) => {
 
@@ -172,9 +242,9 @@ function JobTracker() {
 
         
 
-        await api.put(
-  `/jobs/${id}`,
-  data
+       const response = await api.put(
+  `/jobs/${editingId}`,
+  formData
 )
 
         setJobs((current) =>
@@ -191,15 +261,15 @@ function JobTracker() {
 
       } else {
 
-        await api.post(
+        const response = await api.post(
   "/jobs",
-  jobData
+  formData
 )
 
-        setJobs((current) => [
-          response.data,
-          ...current,
-        ])
+setJobs((current) => [
+  response.data,
+  ...current,
+])
 
       }
 
@@ -246,7 +316,7 @@ function JobTracker() {
         localStorage.getItem("careerforge_token")
 
       await api.delete(
-  `/jobs/${id}`
+  `/jobs/${jobId}`
 )
 
       setJobs((current) =>
@@ -271,6 +341,125 @@ function JobTracker() {
 
     <div className="space-y-6">
 
+      <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+  <h2 className="text-xl font-bold mb-4">
+    🔍 Search Live Jobs
+  </h2>
+
+  <div className="flex gap-3">
+
+    <input
+      type="text"
+      placeholder="Java Developer"
+      value={searchQuery}
+      onChange={(e) =>
+        setSearchQuery(e.target.value)
+      }
+      className="flex-1 rounded-xl border px-4 py-3"
+    />
+
+    <button
+      onClick={searchJobs}
+      className="rounded-xl bg-blue-600 px-6 py-3 text-white"
+    >
+      Search
+    </button>
+
+  </div>
+
+</div>
+ 
+     {searchResults.length > 0 && (
+
+  <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+    <h2 className="mb-4 text-xl font-bold">
+      Live Jobs
+    </h2>
+
+    <div className="space-y-4">
+
+      {searchResults.map((job) => (
+
+        <div
+  key={job.redirect_url}
+  className="rounded-xl border p-5"
+>
+
+  <h3 className="text-lg font-bold text-slate-900">
+    {job.title}
+  </h3>
+
+  <p className="mt-2 text-slate-700">
+    🏢 {job.company?.display_name}
+  </p>
+
+  <p className="text-slate-700">
+    📍 {job.location?.display_name}
+  </p>
+
+  <p className="text-slate-700">
+    💰 {
+      job.salary_min && job.salary_max
+        ? `₹${Math.round(job.salary_min).toLocaleString()} - ₹${Math.round(job.salary_max).toLocaleString()}`
+        : "Salary Not Disclosed"
+    }
+  </p>
+
+  <p className="text-slate-700">
+    🏷️ {job.category?.label}
+  </p>
+
+  <div className="mt-3 rounded-lg bg-slate-50 p-3">
+
+    <p className="text-sm text-slate-600">
+  {job.description?.substring(0, 80)}...
+</p>
+
+  </div>
+
+ <div className="mt-4 flex gap-2">
+
+  <button
+    onClick={() =>
+  window.open(
+    job.redirect_url,
+    "_blank"
+  )
+}
+    className="rounded-lg bg-slate-700 px-4 py-2 text-white"
+  >
+    👁 View Details
+  </button>
+
+  <a
+    href={job.redirect_url}
+    target="_blank"
+    rel="noreferrer"
+    className="rounded-lg bg-green-600 px-4 py-2 text-white"
+  >
+    Apply Now
+  </a>
+
+<button
+  onClick={() =>
+    saveLiveJob(job)
+  }
+  className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+>
+  💾 Save Job
+</button>
+</div>
+
+</div>
+      ))}
+
+    </div>
+
+  </div>
+
+)}
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 
         <StatCard
