@@ -75,7 +75,7 @@ function JobTracker() {
   const [searchQuery, setSearchQuery] = useState("")
 const [searchResults, setSearchResults] = useState([])
 const [location, setLocation] =
-  useState("Anywhere")
+  useState("")
 
 const [workMode, setWorkMode] =
   useState("All")
@@ -391,21 +391,15 @@ setJobs((current) => [
 
     {/* Location */}
 
-    <select
-      value={location}
-      onChange={(e) =>
-        setLocation(e.target.value)
-      }
-      className="rounded-lg border p-3"
-    >
-      <option>Anywhere</option>
-      <option>Bangalore</option>
-      <option>Hyderabad</option>
-      <option>Chennai</option>
-      <option>Pune</option>
-      <option>Mumbai</option>
-      <option>Remote</option>
-    </select>
+    <input
+  type="text"
+  placeholder="Enter Location (e.g. Hyderabad)"
+  value={location}
+  onChange={(e) =>
+    setLocation(e.target.value)
+  }
+  className="rounded-lg border p-3"
+/>
 
     {/* Work Mode */}
 
