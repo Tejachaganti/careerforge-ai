@@ -77,6 +77,8 @@ const [searchResults, setSearchResults] = useState([])
 const [page, setPage] = useState(1)
 const [location, setLocation] =
   useState("")
+const [selectedJob, setSelectedJob] = useState(null)
+const [showModal, setShowModal] = useState(false)
 
 
 const searchJobs = async () => {
@@ -121,10 +123,24 @@ const loadMoreJobs = async () => {
       )}&page=${nextPage}`
     )
 
-    setSearchResults((current) => [
-      ...current,
-      ...data,
-    ])
+   setSearchResults((current) => {
+
+  const combined = [
+    ...current,
+    ...data,
+  ]
+const uniqueJobs = combined.filter(
+  (job, index, self) =>
+    index ===
+    self.findIndex(
+      (j) =>
+        `${j.title}-${j.company?.display_name}` ===
+        `${job.title}-${job.company?.display_name}`
+    )
+)
+
+  return uniqueJobs
+})
 
     setPage(nextPage)
 
@@ -376,9 +392,9 @@ setJobs((current) => [
   }
 
   return (
-
+   <>
     <div className="space-y-6">
-
+    
       <div className="rounded-2xl bg-white p-6 shadow-sm">
 
   <h2 className="text-xl font-bold mb-4">
@@ -425,8 +441,6 @@ setJobs((current) => [
   className="rounded-lg border p-3"
 />
 
-    
-
   </div>
 
 </div>
@@ -436,7 +450,9 @@ setJobs((current) => [
      {searchResults.length > 0 && (
 
   <div className="rounded-2xl bg-white p-6 shadow-sm">
-
+<p className="text-sm text-slate-500">
+  Found {searchResults.length} jobs
+</p>
     <h2 className="mb-4 text-xl font-bold">
       Live Jobs
     </h2>
@@ -484,18 +500,15 @@ setJobs((current) => [
 
  <div className="mt-4 flex gap-2">
 
-  <button
-    onClick={() =>
-  window.open(
-    job.redirect_url,
-    "_blank"
-  )
-}
-    className="rounded-lg bg-slate-700 px-4 py-2 text-white"
-  >
-    👁 View Details
-  </button>
-
+ <button
+  onClick={() => {
+    setSelectedJob(job)
+    setShowModal(true)
+  }}
+  className="rounded-lg bg-slate-700 px-4 py-2 text-white"
+>
+  👁 View Details
+</button>
   <a
     href={job.redirect_url}
     target="_blank"
@@ -844,8 +857,78 @@ setJobs((current) => [
       </div>
 
     </div>
+{showModal && selectedJob && (
 
-  )
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+
+    <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6">
+
+      <div className="flex items-center justify-between">
+
+        <h2 className="text-2xl font-bold">
+          {selectedJob.title}
+        </h2>
+
+        <button
+          onClick={() => setShowModal(false)}
+          className="text-2xl"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div className="mt-4 space-y-2">
+
+        <p>🏢 {selectedJob.company?.display_name}</p>
+
+        <p>📍 {selectedJob.location?.display_name}</p>
+
+        <p>🏷️ {selectedJob.category?.label}</p>
+
+      </div>
+
+      <div className="mt-6">
+
+        <h3 className="font-bold">
+          Job Description
+        </h3>
+
+        <p className="mt-2 whitespace-pre-wrap text-slate-700">
+          {selectedJob.description}
+        </p>
+
+      </div>
+
+      <div className="mt-6 flex gap-3">
+
+        <a
+          href={selectedJob.redirect_url}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-lg bg-green-600 px-4 py-2 text-white"
+        >
+          Apply Now
+        </a>
+
+        <button
+          onClick={() =>
+            saveLiveJob(selectedJob)
+          }
+          className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+        >
+          Save Job
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+)}
+   </>
+)
 }
 
 function StatCard({
@@ -880,6 +963,7 @@ function StatCard({
       </h2>
 
     </div>
+    
 
   )
 }
