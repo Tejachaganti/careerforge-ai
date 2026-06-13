@@ -74,13 +74,27 @@ function JobTracker() {
 
   const [searchQuery, setSearchQuery] = useState("")
 const [searchResults, setSearchResults] = useState([])
+const [location, setLocation] =
+  useState("Anywhere")
 
+const [workMode, setWorkMode] =
+  useState("All")
+
+const [experience, setExperience] =
+  useState("All")
 const searchJobs = async () => {
   try {
-   const { data } = await api.get(
-  `/job-search/search?q=${
-    searchQuery || "software engineer"
-  }`
+ const query = [
+  searchQuery || "software engineer",
+  location !== "Anywhere" ? location : "",
+  workMode !== "All" ? workMode : "",
+  experience !== "All" ? experience : "",
+]
+  .filter(Boolean)
+  .join(" ")
+
+const { data } = await api.get(
+  `/job-search/search?q=${encodeURIComponent(query)}`
 )
     setSearchResults(data)
   } catch (error) {
@@ -346,27 +360,87 @@ setJobs((current) => [
   <h2 className="text-xl font-bold mb-4">
     🔍 Search Live Jobs
   </h2>
+<div className="flex gap-3">
 
-  <div className="flex gap-3">
+  <input
+    type="text"
+    placeholder="Java Developer"
+    value={searchQuery}
+    onChange={(e) =>
+      setSearchQuery(e.target.value)
+    }
+    className="flex-1 rounded-xl border px-4 py-3"
+  />
 
-    <input
-      type="text"
-      placeholder="Java Developer"
-      value={searchQuery}
+  <button
+    onClick={searchJobs}
+    className="rounded-xl bg-blue-600 px-6 py-3 text-white"
+  >
+    Search
+  </button>
+
+</div>
+
+<div className="mt-4">
+
+  <h3 className="mb-3 font-semibold">
+    ⚙️ Filters
+  </h3>
+
+  <div className="grid gap-3 md:grid-cols-3">
+
+    {/* Location */}
+
+    <select
+      value={location}
       onChange={(e) =>
-        setSearchQuery(e.target.value)
+        setLocation(e.target.value)
       }
-      className="flex-1 rounded-xl border px-4 py-3"
-    />
-
-    <button
-      onClick={searchJobs}
-      className="rounded-xl bg-blue-600 px-6 py-3 text-white"
+      className="rounded-lg border p-3"
     >
-      Search
-    </button>
+      <option>Anywhere</option>
+      <option>Bangalore</option>
+      <option>Hyderabad</option>
+      <option>Chennai</option>
+      <option>Pune</option>
+      <option>Mumbai</option>
+      <option>Remote</option>
+    </select>
+
+    {/* Work Mode */}
+
+    <select
+      value={workMode}
+      onChange={(e) =>
+        setWorkMode(e.target.value)
+      }
+      className="rounded-lg border p-3"
+    >
+      <option>All</option>
+      <option>Remote</option>
+      <option>Onsite</option>
+      <option>Hybrid</option>
+    </select>
+
+    {/* Experience */}
+
+    <select
+      value={experience}
+      onChange={(e) =>
+        setExperience(e.target.value)
+      }
+      className="rounded-lg border p-3"
+    >
+      <option>All</option>
+      <option>Fresher</option>
+      <option>0-2 Years</option>
+      <option>2-5 Years</option>
+      <option>5+ Years</option>
+    </select>
 
   </div>
+
+</div>
 
 </div>
  
