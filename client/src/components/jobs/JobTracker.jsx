@@ -96,6 +96,7 @@ const searchJobs = async () => {
 const { data } = await api.get(
   `/job-search/search?q=${encodeURIComponent(query)}`
 )
+console.log("RESULTS =", data)
     setSearchResults(data)
   } catch (error) {
 
