@@ -84,6 +84,7 @@ const [showModal, setShowModal] = useState(false)
 const searchJobs = async () => {
   try {
     setPage(1)
+    setSearchResults([])
 
 const { data } = await api.get(
   `/job-search/search?q=${encodeURIComponent(
@@ -153,6 +154,20 @@ const uniqueJobs = combined.filter(
 }
 const saveLiveJob = async (job) => {
 
+  const exists = jobs.some(
+    (j) =>
+      j.company ===
+        job.company?.display_name &&
+      j.role === job.title
+  )
+
+  if (exists) {
+    alert("Job already saved")
+    return
+  }
+
+  
+
   try {
 
     const response = await api.post(
@@ -179,7 +194,7 @@ const saveLiveJob = async (job) => {
       ...current,
     ])
 
-    alert("Job saved!")
+    alert(`Saved: ${job.title}`)
 
   } catch (error) {
 
@@ -196,9 +211,7 @@ const saveLiveJob = async (job) => {
 
       try {
 
-        const token =
-          localStorage.getItem("careerforge_token")
-
+        
         
         const response = await api.get(
   "/jobs"
@@ -289,8 +302,7 @@ const saveLiveJob = async (job) => {
 
     try {
 
-      const token =
-        localStorage.getItem("careerforge_token")
+
 
       if (editingId) {
 
@@ -366,8 +378,7 @@ setJobs((current) => [
 
     try {
 
-      const token =
-        localStorage.getItem("careerforge_token")
+     
 
       await api.delete(
   `/jobs/${jobId}`
@@ -865,10 +876,17 @@ setJobs((current) => [
 
       <div className="flex items-center justify-between">
 
-        <h2 className="text-2xl font-bold">
-          {selectedJob.title}
-        </h2>
+        <div>
 
+  <h2 className="text-2xl font-bold">
+    {selectedJob.title}
+  </h2>
+
+  <p className="text-slate-500">
+    {selectedJob.company?.display_name}
+  </p>
+
+</div>
         <button
           onClick={() => setShowModal(false)}
           className="text-2xl"
@@ -878,15 +896,28 @@ setJobs((current) => [
 
       </div>
 
-      <div className="mt-4 space-y-2">
+     <div className="mt-4 space-y-2">
 
-        <p>🏢 {selectedJob.company?.display_name}</p>
+  <p>🏢 {selectedJob.company?.display_name}</p>
 
-        <p>📍 {selectedJob.location?.display_name}</p>
+  <p>📍 {selectedJob.location?.display_name}</p>
 
-        <p>🏷️ {selectedJob.category?.label}</p>
+  <p>
+    💰 {
+      selectedJob.salary_min &&
+      selectedJob.salary_max
+        ? `₹${Math.round(
+            selectedJob.salary_min
+          ).toLocaleString()} - ₹${Math.round(
+            selectedJob.salary_max
+          ).toLocaleString()}`
+        : "Salary Not Disclosed"
+    }
+  </p>
 
-      </div>
+  <p>🏷️ {selectedJob.category?.label}</p>
+
+</div>
 
       <div className="mt-6">
 
@@ -894,10 +925,13 @@ setJobs((current) => [
           Job Description
         </h3>
 
-        <p className="mt-2 whitespace-pre-wrap text-slate-700">
-          {selectedJob.description}
-        </p>
+       <div className="mt-2 max-h-80 overflow-y-auto rounded-lg bg-slate-50 p-4">
 
+ <p className="whitespace-pre-wrap text-slate-700">
+  {selectedJob.description || "No description available"}
+</p>
+
+</div>
       </div>
 
       <div className="mt-6 flex gap-3">
