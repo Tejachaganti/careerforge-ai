@@ -77,24 +77,15 @@ const [searchResults, setSearchResults] = useState([])
 const [location, setLocation] =
   useState("")
 
-const [workMode, setWorkMode] =
-  useState("All")
 
-const [experience, setExperience] =
-  useState("All")
 const searchJobs = async () => {
   try {
- const query = [
-  searchQuery || "software engineer",
-  location !== "Anywhere" ? location : "",
-  workMode !== "All" ? workMode : "",
-  experience !== "All" ? experience : "",
-]
-  .filter(Boolean)
-  .join(" ")
-
-const { data } = await api.get(
-  `/job-search/search?q=${encodeURIComponent(query)}`
+ const { data } = await api.get(
+  `/job-search/search?q=${encodeURIComponent(
+    searchQuery || "software engineer"
+  )}&location=${encodeURIComponent(
+    location
+  )}`
 )
 console.log("RESULTS =", data)
     setSearchResults(data)
@@ -402,36 +393,7 @@ setJobs((current) => [
   className="rounded-lg border p-3"
 />
 
-    {/* Work Mode */}
-
-    <select
-      value={workMode}
-      onChange={(e) =>
-        setWorkMode(e.target.value)
-      }
-      className="rounded-lg border p-3"
-    >
-      <option>All</option>
-      <option>Remote</option>
-      <option>Onsite</option>
-      <option>Hybrid</option>
-    </select>
-
-    {/* Experience */}
-
-    <select
-      value={experience}
-      onChange={(e) =>
-        setExperience(e.target.value)
-      }
-      className="rounded-lg border p-3"
-    >
-      <option>All</option>
-      <option>Fresher</option>
-      <option>0-2 Years</option>
-      <option>2-5 Years</option>
-      <option>5+ Years</option>
-    </select>
+    
 
   </div>
 
