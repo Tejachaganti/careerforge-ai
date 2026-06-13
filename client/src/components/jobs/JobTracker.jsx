@@ -74,21 +74,25 @@ function JobTracker() {
 
   const [searchQuery, setSearchQuery] = useState("")
 const [searchResults, setSearchResults] = useState([])
+const [page, setPage] = useState(1)
 const [location, setLocation] =
   useState("")
 
 
 const searchJobs = async () => {
   try {
- const { data } = await api.get(
+    setPage(1)
+
+const { data } = await api.get(
   `/job-search/search?q=${encodeURIComponent(
     searchQuery || "software engineer"
   )}&location=${encodeURIComponent(
     location
-  )}`
+  )}&page=1`
 )
-console.log("RESULTS =", data)
-    setSearchResults(data)
+
+setSearchResults(data)
+    
   } catch (error) {
 
   console.error("SAVE JOB ERROR:", error)
@@ -102,6 +106,34 @@ console.log("RESULTS =", data)
   )
 
 }
+}
+const loadMoreJobs = async () => {
+
+  try {
+
+    const nextPage = page + 1
+
+    const { data } = await api.get(
+      `/job-search/search?q=${encodeURIComponent(
+        searchQuery || "software engineer"
+      )}&location=${encodeURIComponent(
+        location
+      )}&page=${nextPage}`
+    )
+
+    setSearchResults((current) => [
+      ...current,
+      ...data,
+    ])
+
+    setPage(nextPage)
+
+  } catch (error) {
+
+    console.log(error)
+
+  }
+
 }
 const saveLiveJob = async (job) => {
 
@@ -485,6 +517,16 @@ setJobs((current) => [
 
 </div>
       ))}
+      <div className="mt-6 flex justify-center">
+
+  <button
+  onClick={loadMoreJobs}
+  className="rounded-xl bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
+>
+  🚀 Load More Jobs
+</button>
+
+</div>
 
     </div>
 

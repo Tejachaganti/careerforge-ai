@@ -8,8 +8,10 @@ const searchJobs = async (req, res) => {
 const location =
   req.query.location || ""
 
+const page = req.query.page || 1
+
 const response = await axios.get(
-  "https://api.adzuna.com/v1/api/jobs/in/search/1",
+  `https://api.adzuna.com/v1/api/jobs/in/search/${page}`,
   {
     params: {
       app_id:
