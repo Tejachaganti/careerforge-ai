@@ -122,32 +122,32 @@ const jobMatchScore =
   ) || 0
 
   const statusData = [
-
-    {
-      name: "Applied",
-      value: appliedCount,
-      color: "#3b82f6",
-    },
-
-    {
-      name: "Interview",
-      value: interviewCount,
-      color: "#f59e0b",
-    },
-
-    {
-      name: "Offer",
-      value: offerCount,
-      color: "#10b981",
-    },
-
-    {
-      name: "Rejected",
-      value: rejectedCount,
-      color: "#ef4444",
-    },
-
-  ]
+  {
+    name: "Saved",
+    value: savedCount,
+    color: "#8b5cf6",
+  },
+  {
+    name: "Applied",
+    value: appliedCount,
+    color: "#3b82f6",
+  },
+  {
+    name: "Interview",
+    value: interviewCount,
+    color: "#f59e0b",
+  },
+  {
+    name: "Offer",
+    value: offerCount,
+    color: "#10b981",
+  },
+  {
+    name: "Rejected",
+    value: rejectedCount,
+    color: "#ef4444",
+  },
+]
 
   const applicationData = [
 
