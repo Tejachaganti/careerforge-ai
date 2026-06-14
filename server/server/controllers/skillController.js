@@ -24,6 +24,21 @@ const SKILLS_DB = [
   "pytorch",
   "express",
   "c++",
+
+  // QA Skills
+  "qa",
+  "quality assurance",
+  "testing",
+  "manual testing",
+  "automation testing",
+  "test cases",
+  "test scripts",
+  "bug tracking",
+  "jira",
+  "documentation",
+  "selenium",
+  "postman",
+
 ]
 
 const extractSkills = async (req, res) => {
@@ -76,10 +91,18 @@ const extractSkills = async (req, res) => {
 
     text = text.toLowerCase()
 
-    const foundSkills =
-      SKILLS_DB.filter(skill =>
-        text.includes(skill)
+   const foundSkills =
+  SKILLS_DB.filter(skill => {
+
+    const regex =
+      new RegExp(
+        `\\b${skill.replace(/\+/g,"\\+")}\\b`,
+        "i"
       )
+
+    return regex.test(text)
+
+  })
 
     res.status(200).json({
       skills: foundSkills,

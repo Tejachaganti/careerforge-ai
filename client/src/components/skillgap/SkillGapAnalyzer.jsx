@@ -24,6 +24,21 @@ const SKILLS_DB = [
   "pytorch",
   "express",
   "c++",
+
+   // QA Skills
+  "qa",
+  "quality assurance",
+  "testing",
+  "manual testing",
+  "automation testing",
+  "test cases",
+  "test scripts",
+  "bug tracking",
+  "jira",
+  "documentation",
+  "selenium",
+  "postman"
+
 ]
 
 function SkillGapAnalyzer() {
@@ -134,17 +149,19 @@ function SkillGapAnalyzer() {
 
       })
 
-    if (
-      requiredSkills.length === 0
-    ) {
+    if (requiredSkills.length === 0) {
+  setResult({
+    score: 0,
+    matched: [],
+    missing: [],
+    recommendations: [
+      "No recognizable skills found in the Job Description."
+    ]
+  })
+  return
+}
 
-      alert(
-        "No skills found in Job Description"
-      )
-
-      return
-
-    }
+    
 
     const matched =
       requiredSkills.filter(skill =>
