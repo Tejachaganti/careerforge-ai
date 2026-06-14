@@ -47,6 +47,10 @@ function AnalyticsPage() {
 
   const applicationCount = jobs.length
 
+  const savedCount = jobs.filter(
+  job => job.status === "Saved"
+).length
+
   const appliedCount = jobs.filter(
   job => job.status === "Applied"
 ).length
@@ -104,13 +108,17 @@ const profileCompletion =
   )
 
 const resumeScore =
-  localStorage.getItem(
-    "resumeScore"
+  Number(
+    localStorage.getItem(
+      "resumeScore"
+    )
   ) || 0
 
 const jobMatchScore =
-  localStorage.getItem(
-    "jobMatchScore"
+  Number(
+    localStorage.getItem(
+      "jobMatchScore"
+    )
   ) || 0
 
   const statusData = [
@@ -237,11 +245,9 @@ const jobMatchScore =
 
           <div className="mb-6">
 
-            <h2 className="text-xl font-bold text-white">
-
-              Application Status
-
-            </h2>
+           <h2 className="text-xl font-bold text-slate-900">
+  Application Status
+</h2>
 
             <p className="text-sm text-slate-900">
 
@@ -288,7 +294,12 @@ const jobMatchScore =
 
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <StatCard
+  title="Saved Jobs"
+  value={savedCount}
+  color="from-purple-500 to-violet-600"
+/>
 
         <StatCard
           title="Applications"
@@ -307,6 +318,12 @@ const jobMatchScore =
           value={offerCount}
           color="from-emerald-500 to-green-600"
         />
+
+        <StatCard
+  title="Rejected"
+  value={rejectedCount}
+  color="from-red-500 to-rose-600"
+/>
 
         <StatCard
           title="Success Rate"
@@ -335,12 +352,70 @@ const jobMatchScore =
   value={jobs.length}
   color="from-indigo-500 to-blue-600"
 />
-      </div>
 
-    </div>
+
+            </div>
+
+     <div className="rounded-2xl bg-white p-6 shadow-sm">
+
+  <h2 className="mb-4 text-xl font-bold">
+    Recent Activity
+  </h2>
+
+  <div className="space-y-3">
+
+    {jobs.length === 0 ? (
+
+  <p className="text-slate-500">
+    No activity yet
+  </p>
+
+) : (
+
+  [...jobs]
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt) -
+        new Date(a.updatedAt)
+    )
+    .slice(0, 5)
+    .map((job) => (
+      <div
+        key={job._id}
+        className="border-b pb-3"
+      >
+        <p className="font-semibold">
+          {job.role}
+        </p>
+
+        <p className="text-sm text-slate-500">
+          {job.company}
+        </p>
+
+        <p className="text-xs text-slate-400">
+          {job.status}
+        </p>
+      </div>
+    ))
+
+)}
+
+  </div>
+
+</div>
+
+  </div>
+
+
+
+
 
   )
 }
+
+
+
+    
 
 function StatCard({
   title,
