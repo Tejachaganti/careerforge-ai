@@ -84,7 +84,8 @@ const applicationCount = appliedCount
       "careerforgeProfile"
     ) || "{}"
   )
-
+console.log(savedProfile)
+console.log("Profile Completion:", profileCompletion)
 const profileFields = [
   savedProfile.fullName,
   savedProfile.email,
