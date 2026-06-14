@@ -51,9 +51,12 @@ function AnalyticsPage() {
   job => job.status === "Saved"
 ).length
 
-  const appliedCount = jobs.filter(
+  
+const appliedCount = jobs.filter(
   job => job.status === "Applied"
 ).length
+
+const applicationCount = appliedCount
 
   const interviewCount = jobs.filter(
     (job) => job.status === "Interview"
