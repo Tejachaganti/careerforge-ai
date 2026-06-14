@@ -45,7 +45,7 @@ function AnalyticsPage() {
 
   }, [])
 
-  const applicationCount = jobs.length
+  
 
   const savedCount = jobs.filter(
   job => job.status === "Saved"
@@ -67,6 +67,7 @@ function AnalyticsPage() {
     (job) => job.status === "Rejected"
   ).length
 
+  const totalJobs = jobs.length
   const successRate = applicationCount
 
     ? Math.round(
@@ -349,7 +350,7 @@ const jobMatchScore =
 />
 <StatCard
   title="Total Jobs"
-  value={jobs.length}
+  value={totalJobs}
   color="from-indigo-500 to-blue-600"
 />
 
