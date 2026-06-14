@@ -2,55 +2,60 @@
 
 AI-Powered Career Copilot built using React.js, Node.js, Express.js, MongoDB Atlas, and OpenAI API.
 
-## Features
+## 🌟 Features
 
-- Resume Analyzer
-- ATS Score Checker
-- Job Match Analyzer
-- Skill Gap Analysis
-- AI Career Roadmap Generator
-- Interview Preparation
-- Job Application Tracker
-- Analytics Dashboard
-- Profile Management
+* Resume Analyzer
+* ATS Score Checker
+* Job Match Analyzer
+* Skill Gap Analysis
+* AI Career Roadmap Generator
+* Interview Preparation
+* Job Application Tracker
+* Analytics Dashboard
+* Profile Management
 
-## Tech Stack
+## 🛠 Tech Stack
 
 ### Frontend
-- React.js
-- Tailwind CSS
+
+* React.js
+* Tailwind CSS
 
 ### Backend
-- Node.js
-- Express.js
+
+* Node.js
+* Express.js
 
 ### Database
-- MongoDB Atlas
+
+* MongoDB Atlas
 
 ### AI Integration
-- OpenAI API
+
+* OpenAI API
 
 ### Tools
-- Git
-- GitHub
-- Postman
 
-## Installation
+* Git
+* GitHub
+* Postman
+
+## 🚀 Installation
 
 ```bash
-git clone https://github.com/tejachaganti/CareerForge-AI.git
+git clone https://github.com/Tejachaganti/careerforge-ai.git
 
-cd CareerForge-AI
+cd careerforge-ai
 
 npm install
 
 npm run dev
 ```
 
-## Live Demo
+## 🌐 Live Demo
 
 https://careerforge-ai-one.vercel.app
 
-## Author
+## 👨‍💻 Author
 
 Chaganti Naga Veera Satya Teja
