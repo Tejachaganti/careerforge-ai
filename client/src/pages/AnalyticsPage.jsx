@@ -78,12 +78,7 @@ const applicationCount = appliedCount
       )
 
     : 0
-    const savedProfile =
-  JSON.parse(
-    localStorage.getItem(
-      "careerforgeProfile"
-    ) || "{}"
-  )
+    
 
 const profileFields = [
   savedProfile.fullName,
