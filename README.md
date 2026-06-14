@@ -56,6 +56,23 @@ npm run dev
 
 https://careerforge-ai-one.vercel.app
 
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Resume Analyzer
+![Resume Analyzer](screenshots/resume-analyzer.png)
+
+### Job Tracker
+![Job Tracker](screenshots/job-tracker.png)
+
+### Career Roadmap Generator
+![Career Roadmap](screenshots/roadmap.png)
+
+### Analytics Dashboard
+![Analytics Dashboard](screenshots/analytics.png)
+
 ## 👨‍💻 Author
 
 Chaganti Naga Veera Satya Teja
