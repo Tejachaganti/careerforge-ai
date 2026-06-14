@@ -48,7 +48,28 @@ function AnalyticsPage() {
 
   }, [])
 
-  
+  useEffect(() => {
+
+  const fetchProfile = async () => {
+
+    try {
+
+      const { data } =
+        await api.get("/profile")
+
+      setSavedProfile(data || {})
+
+    } catch (error) {
+
+      console.log(error)
+
+    }
+
+  }
+
+  fetchProfile()
+
+}, [])
 
   const savedCount = jobs.filter(
   job => job.status === "Saved"
@@ -82,18 +103,7 @@ const applicationCount = appliedCount
 
     : 0
     
-const fetchProfile = async () => {
-  try {
-    const { data } =
-      await api.get("/profile")
 
-    setSavedProfile(data || {})
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-fetchProfile()
 const profileFields = [
   savedProfile.fullName,
   savedProfile.email,
